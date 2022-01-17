@@ -30,6 +30,7 @@ class ClassNoteBookTest {
 
         assertEquals(6, classNoteBook.getMarks().size());
         assertTrue(classNoteBook.getMarks().keySet().contains(new Student(6, "Julia Doe")));
+        assertEquals(0, classNoteBook.getMarks().get(student).size());
     }
 
     @Test
