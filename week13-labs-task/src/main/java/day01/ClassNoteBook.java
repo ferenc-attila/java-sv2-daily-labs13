@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ClassNoteBook {
 
-    private Map<Student, List<Integer>> marks = new TreeMap<>(Student::compareTo);
+    private Map<Student, List<Integer>> marks = new TreeMap<>();
 
     public void addStudent(Student student) {
         marks.put(student, new ArrayList<>());
