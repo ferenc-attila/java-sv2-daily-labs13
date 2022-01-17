@@ -31,4 +31,8 @@ public class ClassNoteBook {
             throw new IllegalArgumentException("No such student!");
         }
     }
+
+    public Map<Student, List<Integer>> getMarks() {
+        return Map.copyOf(marks);
+    }
 }
