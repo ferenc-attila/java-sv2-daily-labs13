@@ -3,6 +3,10 @@ package day01;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClassNoteBookTest {
@@ -12,10 +16,10 @@ class ClassNoteBookTest {
     @BeforeEach
     void init() {
         Student firstStudent = new Student(1, "John Doe");
-        Student secondStudent = new Student(2, "Jane Doe");
         Student thirdStudent = new Student(3, "Jack Doe");
-        Student fourthStudent = new Student(4, "Jill Doe");
+        Student secondStudent = new Student(2, "Jane Doe");
         Student fifthStudent = new Student(5, "Janet Doe");
+        Student fourthStudent = new Student(4, "Jill Doe");
         classNoteBook.addStudent(firstStudent);
         classNoteBook.addStudent(secondStudent);
         classNoteBook.addStudent(thirdStudent);
