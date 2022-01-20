@@ -17,17 +17,11 @@ public class StringStatistics {
 
     private void countVowels(char[] characters, Map<Character, Integer> numberOfVowels) {
         for (char c : characters) {
-            if (numberOfVowels.containsKey(c) && vowels.contains(c)) {
-                numberOfVowels.put(c, numberOfVowels.get(c) + 1);
-            } else if (!numberOfVowels.containsKey(c) && vowels.contains(c)) {
+            if (!numberOfVowels.containsKey(c) && vowels.contains(c)) {
                 numberOfVowels.put(c, 1);
+            } else if (vowels.contains(c)) {
+                numberOfVowels.put(c, numberOfVowels.get(c) + 1);
             }
         }
-    }
-
-    public static void main(String[] args) {
-        StringStatistics stat = new StringStatistics();
-
-        System.out.println(stat.getNumberOfVowels("This is a text in screen!"));
     }
 }
