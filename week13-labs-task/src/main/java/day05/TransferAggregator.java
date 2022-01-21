@@ -21,17 +21,7 @@ public class TransferAggregator {
         Map<String, TransferPerClient> transfers = new TreeMap<>();
         try (BufferedReader br = Files.newBufferedReader(path)){
             while ((line = br.readLine()) != null) {
-                String[] row = line.split(",");
-                if (transfers.containsKey(row[0])) {
-                    transfers.get(row[0]).increase(Integer.parseInt(row[2]));
-                } else {
-                    transfers.put(row[0], new TransferPerClient(row[0], Integer.parseInt(row[2]), 1));
-                }
-                if (transfers.containsKey(row[1])) {
-                    transfers.get(row[1]).decrease(Integer.parseInt(row[2]));
-                } else {
-                    transfers.put(row[1], new TransferPerClient(row[1], Integer.parseInt(row[2]), 1));
-                }
+                parseRow(line, transfers);
             }
         } catch (IOException ioe) {
             throw new IllegalArgumentException("Cannot read file!", ioe);
@@ -39,5 +29,34 @@ public class TransferAggregator {
             throw new IllegalArgumentException("Invalid data in the file!", exception);
         }
         return transfers;
+    }
+
+    private void parseRow(String line, Map<String, TransferPerClient> transfers) {
+        String[] row = line.split(",");
+        String sourceClientId = row[0];
+        String targetClientId = row[1];
+        int amount = Integer.parseInt(row[2]);
+        TransferPerClient source = transfers.computeIfAbsent(sourceClientId, k -> new TransferPerClient(sourceClientId));
+        source.decrease(amount);
+        TransferPerClient target = transfers.computeIfAbsent(targetClientId, k -> new TransferPerClient(targetClientId));
+        target.increase(amount);
+    }
+
+    public void writeTransfers(Path path) {
+        List<TransferPerClient> transfers = readTransfers(Path.of("src/main/resources/transfers.csv"));
+        List<String> contentToWrite = createContentOfFile(transfers);
+        try {
+            Files.write(path, contentToWrite);
+        } catch (IOException ioe) {
+            throw new IllegalArgumentException("Cannot write file!", ioe);
+        }
+    }
+
+    private List<String> createContentOfFile(List<TransferPerClient> transfers) {
+        List<String> contentToWrite = new ArrayList<>();
+        for (TransferPerClient actual : transfers) {
+            contentToWrite.add(actual.toCsvString());
+        }
+        return contentToWrite;
     }
 }

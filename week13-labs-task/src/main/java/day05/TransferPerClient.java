@@ -1,16 +1,13 @@
 package day05;
 
-
 public class TransferPerClient {
 
     private final String clientId;
     private int sum;
     private int numberOfTransactions;
 
-    public TransferPerClient(String clientId, int sum, int numberOfTransactions) {
+    public TransferPerClient(String clientId) {
         this.clientId = clientId;
-        this.sum = sum;
-        this.numberOfTransactions = numberOfTransactions;
     }
 
     public void increase(int amount) {
@@ -23,9 +20,8 @@ public class TransferPerClient {
         numberOfTransactions++;
     }
 
-    @Override
-    public String toString() {
-        return clientId + ": " + sum + " HUF (" + numberOfTransactions +" transactions)";
+    public String toCsvString() {
+        return clientId + "," + sum + "," + numberOfTransactions;
     }
 
     public String getClientId() {
