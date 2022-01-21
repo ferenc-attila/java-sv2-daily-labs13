@@ -11,16 +11,17 @@ public class TransferPerClient {
     }
 
     public void increase(int amount) {
-        sum+=amount;
+        sum += amount;
         numberOfTransactions++;
     }
 
     public void decrease(int amount) {
-        sum-=amount;
+        sum -= amount;
         numberOfTransactions++;
     }
 
-    public String toCsvString() {
+    @Override
+    public String toString() {
         return clientId + "," + sum + "," + numberOfTransactions;
     }
 

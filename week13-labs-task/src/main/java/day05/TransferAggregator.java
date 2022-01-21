@@ -19,13 +19,13 @@ public class TransferAggregator {
     private Map<String, TransferPerClient> parseTransaction(Path path) {
         String line;
         Map<String, TransferPerClient> transfers = new TreeMap<>();
-        try (BufferedReader br = Files.newBufferedReader(path)){
+        try (BufferedReader br = Files.newBufferedReader(path)) {
             while ((line = br.readLine()) != null) {
                 parseRow(line, transfers);
             }
         } catch (IOException ioe) {
             throw new IllegalArgumentException("Cannot read file!", ioe);
-        } catch (NumberFormatException | NullPointerException exception) {
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException exception) {
             throw new IllegalArgumentException("Invalid data in the file!", exception);
         }
         return transfers;
@@ -42,11 +42,11 @@ public class TransferAggregator {
         target.increase(amount);
     }
 
-    public void writeTransfers(Path path) {
-        List<TransferPerClient> transfers = readTransfers(Path.of("src/main/resources/transfers.csv"));
+    public void writeTransfers(Path input, Path output) {
+        List<TransferPerClient> transfers = readTransfers(input);
         List<String> contentToWrite = createContentOfFile(transfers);
         try {
-            Files.write(path, contentToWrite);
+            Files.write(output, contentToWrite);
         } catch (IOException ioe) {
             throw new IllegalArgumentException("Cannot write file!", ioe);
         }
@@ -55,7 +55,7 @@ public class TransferAggregator {
     private List<String> createContentOfFile(List<TransferPerClient> transfers) {
         List<String> contentToWrite = new ArrayList<>();
         for (TransferPerClient actual : transfers) {
-            contentToWrite.add(actual.toCsvString());
+            contentToWrite.add(actual.toString());
         }
         return contentToWrite;
     }
